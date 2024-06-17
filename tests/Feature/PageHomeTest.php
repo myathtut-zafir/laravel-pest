@@ -1,8 +1,9 @@
 <?php
 
 use App\Models\Course;
-use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
+
 use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
@@ -28,7 +29,7 @@ test('show only released course', function () {
     $nonRelease = Course::factory()->create();
     get(route('home'))->assertSeeText([
         $release->title,
-    ])->assertDontSee([$nonRelease->title,]);
+    ])->assertDontSee([$nonRelease->title]);
 });
 test('show course by release date', function () {
     $releaseCourse = Course::factory()->release(Carbon::yesterday())->create();

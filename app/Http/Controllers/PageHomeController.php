@@ -11,6 +11,7 @@ class PageHomeController extends Controller
         $courses = Course::query()->released()->
         orderBy('release_at', 'desc')->
         get();
+
         return view('home', compact('courses'));
     }
 }

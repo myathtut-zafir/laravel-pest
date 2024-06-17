@@ -18,10 +18,10 @@ class CourseFactory extends Factory
         ];
     }
 
-    public function release(Carbon $releasedAt = null): self
+    public function release(?Carbon $releasedAt = null): self
     {
         return $this->state(
-            fn(array $attributes) => ['release_at' => $releasedAt ?? now()]
+            fn (array $attributes) => ['release_at' => $releasedAt ?? now()]
         );
     }
 }
