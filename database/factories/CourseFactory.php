@@ -17,4 +17,9 @@ class CourseFactory extends Factory
             'description' => $this->faker->paragraph(),
         ];
     }
+
+    public function release(Carbon $date = null): self
+    {
+        return $this->state(fn($attributes) => ['release_at' => $date ?? Carbon::now()]);
+    }
 }
