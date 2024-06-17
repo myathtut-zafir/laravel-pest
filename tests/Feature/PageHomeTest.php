@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Course;
+use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\get;
 
@@ -30,12 +31,11 @@ test('show only released course', function () {
     ])->assertDontSee([$nonRelease->title,]);
 });
 test('show course by release date', function () {
-    Course::factory()->create(['title' => 'Course A', 'release_at' => Carbon\Carbon::yesterday()]);
-    Course::factory()->create(['title' => 'Course B', 'release_at' => Carbon\Carbon::now()]);
+    $releaseCourse = Course::factory()->release(Carbon::yesterday())->create();
+    $newtReleaseCourse = Course::factory()->release()->create();
 
     get(route('home'))->assertSeeTextInOrder([
-        'Course B',
-        
-        'Course A',
+        $newtReleaseCourse->title,
+        $releaseCourse->title,
     ]);
 });
