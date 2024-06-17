@@ -35,6 +35,7 @@ test('show course by release date', function () {
 
     get(route('home'))->assertSeeTextInOrder([
         'Course B',
+        
         'Course A',
     ]);
 });
