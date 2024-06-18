@@ -10,6 +10,10 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
+            $table->string('slug');
+            $table->string('tagline');
+            $table->string('image');
+            $table->json('learnings');
             $table->string('title');
             $table->text('description');
             $table->timestamp('release_at')->nullable();

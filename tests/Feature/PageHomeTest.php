@@ -31,7 +31,7 @@ test('show only released course', function () {
         $release->title,
     ])->assertDontSee([$nonRelease->title]);
 });
-test('show course by release date', function () {
+it('show course by release date', function () {
     $releaseCourse = Course::factory()->release(Carbon::yesterday())->create();
     $newtReleaseCourse = Course::factory()->release()->create();
 
