@@ -7,20 +7,14 @@ use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 
-it('show course detail', function () {
-    $course = Course::factory()->create([
-        "tagline" => "This is a tagline",
-        "image" => "image.png",
-        "learnings" => ["Learning 1", "Learning 2", "Learning 3"],
-    ]);
+it('show course details', function () {
+    $course = Course::factory()->create(['image_name'=>'image.png']);
     get(route('course-detail', $course))->assertOk()->assertSeeText([
         $course->title,
         $course->description,
-        "This is a tagline",
-        "Learning 1",
-        "Learning 2",
-        "Learning 3",
-    ])->assertSee("image.png");
+        $course->tagline,
+        ...$course->learnings
+    ])->assertSee(asset("images/$course->image_name"));
 });
 
 it('show course video count', function () {
