@@ -8,7 +8,8 @@ use function Pest\Laravel\get;
 uses(RefreshDatabase::class);
 
 it('show course details', function () {
-    $course = Course::factory()->create(['image_name'=>'image.png']);
+    $course = Course::factory()->release()->create();
+
     get(route('course-detail', $course))->assertOk()->assertSeeText([
         $course->title,
         $course->description,
@@ -18,8 +19,16 @@ it('show course details', function () {
 });
 
 it('show course video count', function () {
-    $course = Course::factory()->create();
-    Video::factory()->count(3)->create(['course_id' => 1]);
+    $course = Course::factory()
+        ->has(Video::factory()->count(3))
+        ->create();
+
     get(route('course-detail', $course))->assertSeeText("3 Videos");
+});
+
+it('does not find unreleased course', function () {
+    $course = Course::factory()->create();
+
+    get(route('course-detail', $course))->assertNotFound();
 });
 
