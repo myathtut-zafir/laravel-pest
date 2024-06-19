@@ -12,6 +12,7 @@ test('cannot be access guest', function () {
     get(route('dashboard'))->assertRedirect(route('login'));
 });
 test('list purchased course', function () {
+
     $users = User::factory()->
     has(Course::factory()->count(2)->state(
         new Sequence(
