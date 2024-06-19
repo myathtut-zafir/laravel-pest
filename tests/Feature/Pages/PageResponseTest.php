@@ -11,10 +11,10 @@ uses(RefreshDatabase::class);
 
 it('give back success home page', function () {
     //Act & Assert
-    get(route('home'))->assertOk();
+    get(route('pages.home'))->assertOk();
 });
 it('give back success response for course detail', function () {
     //Act & Assert
-    $course = Course::factory()->create();
-    get(route('course-detail', $course))->assertOk();
+    $course = Course::factory()->release()->create();
+    get(route('pages.course-detail', $course))->assertOk();
 });

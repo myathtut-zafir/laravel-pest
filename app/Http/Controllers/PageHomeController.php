@@ -12,6 +12,6 @@ class PageHomeController extends Controller
         orderBy('release_at', 'desc')->
         get();
 
-        return view('home', compact('courses'));
+        return view('pages.home', compact('courses'));
     }
 }
