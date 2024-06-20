@@ -3,12 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Course;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Laravel\get;
-
-uses(RefreshDatabase::class);
 
 it('give back success home page', function () {
     //Act & Assert
@@ -21,7 +17,6 @@ it('give back success response for course detail', function () {
 });
 it('give back success response for dashboard', function () {
 
-    $user = User::factory()->create();
-    $this->actingAs($user);
-    get(route('dashboard'))->assertOk();
+    loginAsUser();
+    get(route('pages.dashboard'))->assertOk();
 });

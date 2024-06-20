@@ -2,9 +2,6 @@
 
 use App\Models\Course;
 use App\Models\Video;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-uses(RefreshDatabase::class);
 
 test('only return release course for released scope', function () {
     Course::factory()->release()->create();

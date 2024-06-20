@@ -2,10 +2,8 @@
 
 use App\Models\Course;
 use App\Models\Video;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use function Pest\Laravel\get;
 
-uses(RefreshDatabase::class);
+use function Pest\Laravel\get;
 
 it('show course details', function () {
     $course = Course::factory()->release()->create();
@@ -14,7 +12,7 @@ it('show course details', function () {
         $course->title,
         $course->description,
         $course->tagline,
-        ...$course->learnings
+        ...$course->learnings,
     ])->assertSee(asset("images/$course->image_name"));
 });
 
@@ -24,7 +22,7 @@ it('show course video count', function () {
         ->release()
         ->create();
 
-    get(route('pages.course-detail', $course))->assertSeeText("3 Videos");
+    get(route('pages.course-detail', $course))->assertSeeText('3 Videos');
 });
 
 it('does not find unreleased course', function () {
@@ -32,4 +30,3 @@ it('does not find unreleased course', function () {
 
     get(route('pages.course-detail', $course))->assertNotFound();
 });
-
