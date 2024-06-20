@@ -28,9 +28,38 @@ test('list purchased course', function () {
 
         ]);
 });
+test('does not list other course', function () {
+    $user = User::factory()->create();
+    $course = Course::factory()->create();
+
+    $this->actingAs($user);
+    get(route('dashboard'))->
+    assertOk()->
+    assertDontSeeText($course->title);
+});
 test('show latest purchased course first', function () {
+    $user = User::factory()->create();
+    $firstPurchaseCourse = Course::factory()->create();
+    $lastPurchaseCourse = Course::factory()->create();
+    $user->courses()->attach($firstPurchaseCourse, ['created_at' => \Carbon\Carbon::yesterday()]);
+    $user->courses()->attach($lastPurchaseCourse, ['created_at' => \Carbon\Carbon::now()]);
+    $this->actingAs($user);
+    get(route('dashboard'))->
+    assertOk()->
+    assertSeeInOrder([
+        $lastPurchaseCourse->title,
+        $firstPurchaseCourse->title
+    ]);
 
 });
 test('include link to product videos', function () {
+    $user = User::factory()->
+    has(Course::factory())->
+    create();
+    $this->actingAs($user);
+    get(route('dashboard'))->
+    assertOk()->
+    assertSeeText('Watch videos')->
+    assertSee(route('page.course-videos', Course::first()));
 
 });

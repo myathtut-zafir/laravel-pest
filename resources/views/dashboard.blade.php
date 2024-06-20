@@ -13,7 +13,9 @@
                         <li>
                             <p>
                                 {{$purchaseCourse->title}}
+                                <a href="{{route('page.course-videos', $purchaseCourse)}}">Watch videos</a>
                             </p>
+
                         </li>
 
                     @endforeach
