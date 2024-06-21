@@ -20,3 +20,7 @@ it('give back success response for dashboard', function () {
     loginAsUser();
     get(route('pages.dashboard'))->assertOk();
 });
+it('does not find jetstream regsiration page', function () {
+
+    get('register')->assertNotFound();
+});
