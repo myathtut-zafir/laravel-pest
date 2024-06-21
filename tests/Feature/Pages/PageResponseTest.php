@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Course;
 
+use App\Models\Video;
 use function Pest\Laravel\get;
 
 it('give back success home page', function () {
@@ -23,4 +24,11 @@ it('give back success response for dashboard', function () {
 it('does not find jetstream regsiration page', function () {
 
     get('register')->assertNotFound();
+});
+
+it('give succes response for video page', function () {
+
+    $course = Course::factory()->has(Video::factory())->create();
+    loginAsUser();
+    get(route('page.course-videos', $course))->assertOk();
 });
