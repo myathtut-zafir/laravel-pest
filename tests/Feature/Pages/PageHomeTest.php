@@ -37,3 +37,15 @@ it('show course by release date', function () {
         $releaseCourse->title,
     ]);
 });
+it('include login in if not login', function () {
+
+    get(route('pages.home'))->assertOk()->
+    assertSee(route('login'))->
+    assertSeeText('Login');
+});
+it('include logout in if login', function () {
+    loginAsUser();
+    get(route('pages.home'))->assertOk()->
+    assertSee(route('logout'))->
+    assertSeeText('Log out');
+});
