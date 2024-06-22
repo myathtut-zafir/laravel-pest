@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Course;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
@@ -13,11 +14,12 @@ class VideoFactory extends Factory
     public function definition(): array
     {
         return [
+            'course_id' => Course::factory(),
             'slug' => $this->faker->slug,
             'vimeo_id' => $this->faker->uuid,
             'title' => $this->faker->title,
             'description' => $this->faker->paragraph,
-            'duration' => $this->faker->numberBetween(1, 99),
+            'duration_in_mins' => $this->faker->numberBetween(1, 99),
         ];
     }
 }
