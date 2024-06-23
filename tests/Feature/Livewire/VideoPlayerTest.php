@@ -25,16 +25,13 @@ test('show details for given video', function () {
 });
 
 test('show given video', function () {
-    $course = Course::factory()->
-    has(Video::factory())
-        ->create();
+    $course = createCourseAndVideos();
     $video = $course->videos->first();
     Livewire::test(VideoPlayer::class, ['video' => $video])
         ->assertSeeHtml('<iframe src="https://player.vimeo.com/video/' . $video->vimeo_id . '"');
 });
 test('show lists of all video courses', function () {
-    $course = Course::factory()->
-    has(Video::factory()->count(3))->create();
+    $course = createCourseAndVideos(videosCount: 3);
 
 
     Livewire::test(VideoPlayer::class, ['video' => $course->videos->first()])
@@ -42,15 +39,20 @@ test('show lists of all video courses', function () {
             ...$course->videos->pluck('title')->toArray()
         ])
         ->assertSeeHtml([
-            route('page.course-videos', $course->videos[0]),
             route('page.course-videos', $course->videos[1]),
             route('page.course-videos', $course->videos[2]),
         ]);
 });
+test('does not include route for current video', function () {
+    $course = createCourseAndVideos(videosCount: 3);
+
+
+    Livewire::test(VideoPlayer::class, ['video' => $course->videos->first()])
+        ->assertDontSeeHtml(route('page.course-videos', $course->videos->first()),);
+});
 test('marks video as completed', function () {
     $user = User::factory()->create();
-    $course = Course::factory()->
-    has(Video::factory())->create();
+    $course = createCourseAndVideos();
 
     $user->purchasedCourses()->attach($course);
 
@@ -67,8 +69,7 @@ test('marks video as completed', function () {
 });
 test('marks video as not completed', function () {
     $user = User::factory()->create();
-    $course = Course::factory()->
-    has(Video::factory())->create();
+    $course = createCourseAndVideos();
 
     $user->purchasedCourses()->attach($course);
     $user->watchedVideos()->attach($course->videos()->first());
@@ -82,3 +83,11 @@ test('marks video as not completed', function () {
     $user->refresh();
     expect($user->watchedVideos)->toHaveCount(0);
 });
+
+function createCourseAndVideos(int $videosCount = 1): Course
+{
+    return Course::factory()
+        ->has(Video::factory()
+            ->count($videosCount))
+        ->create();
+}
