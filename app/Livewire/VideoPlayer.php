@@ -20,4 +20,18 @@ class VideoPlayer extends Component
     {
         return view('livewire.video-player');
     }
+
+    public function markVideoAsCompleted(): View
+    {
+        auth()->user()->videos()->attach($this->video);
+
+        return view('livewire.video-player');
+    }
+
+    public function markVideoAsNotCompleted(): View
+    {
+        auth()->user()->videos()->detach($this->video);
+
+        return view('livewire.video-player');
+    }
 }
