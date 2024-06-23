@@ -15,8 +15,8 @@ test('list purchased course', function () {
     has(Course::factory()->count(2)->state(
         new Sequence(
             ['title' => 'Course A'],
-            ['title' => 'Course B'])
-    ))->
+            ['title' => 'Course B']
+        )),'purchasedCourses')->
     create();
     loginAsUser($users);
     get(route('pages.dashboard'))->assertOk()
@@ -38,8 +38,8 @@ test('show latest purchased course first', function () {
     $user = User::factory()->create();
     $firstPurchaseCourse = Course::factory()->create();
     $lastPurchaseCourse = Course::factory()->create();
-    $user->courses()->attach($firstPurchaseCourse, ['created_at' => \Carbon\Carbon::yesterday()]);
-    $user->courses()->attach($lastPurchaseCourse, ['created_at' => \Carbon\Carbon::now()]);
+    $user->purchasedCourses()->attach($firstPurchaseCourse, ['created_at' => \Carbon\Carbon::yesterday()]);
+    $user->purchasedCourses()->attach($lastPurchaseCourse, ['created_at' => \Carbon\Carbon::now()]);
     loginAsUser($user);
     get(route('pages.dashboard'))->
     assertOk()->
@@ -51,7 +51,7 @@ test('show latest purchased course first', function () {
 });
 test('include link to product videos', function () {
     $user = User::factory()->
-    has(Course::factory())->
+    has(Course::factory(),'purchasedCourses')->
     create();
     loginAsUser($user);
     get(route('pages.dashboard'))->

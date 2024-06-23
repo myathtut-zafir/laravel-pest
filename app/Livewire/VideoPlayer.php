@@ -23,14 +23,14 @@ class VideoPlayer extends Component
 
     public function markVideoAsCompleted(): View
     {
-        auth()->user()->videos()->attach($this->video);
+        auth()->user()->watchedVideos()->attach($this->video);
 
         return view('livewire.video-player');
     }
 
     public function markVideoAsNotCompleted(): View
     {
-        auth()->user()->videos()->detach($this->video);
+        auth()->user()->watchedVideos()->detach($this->video);
 
         return view('livewire.video-player');
     }
