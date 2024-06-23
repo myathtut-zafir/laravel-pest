@@ -60,7 +60,10 @@ test('marks video as completed', function () {
 
     loginAsUser($user);
     Livewire::test(VideoPlayer::class, ['video' => $course->videos->first()])
-        ->call('markVideoAsCompleted');
+        ->assertMethodWired('markVideoAsCompleted')
+        ->call('markVideoAsCompleted')
+        ->assertMethodNotWired('markVideoAsCompleted')
+        ->assertMethodWired('markVideoAsNotCompleted');
 
     $user->refresh();
     expect($user->watchedVideos)->toHaveCount(1)->
@@ -78,7 +81,10 @@ test('marks video as not completed', function () {
 
     loginAsUser($user);
     Livewire::test(VideoPlayer::class, ['video' => $course->videos->first()])
-        ->call('markVideoAsNotCompleted');
+        ->assertMethodWired('markVideoAsNotCompleted')
+        ->call('markVideoAsNotCompleted')
+        ->assertMethodNotWired('markVideoAsNotCompleted')
+        ->assertMethodWired('markVideoAsCompleted');
 
     $user->refresh();
     expect($user->watchedVideos)->toHaveCount(0);
