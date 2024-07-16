@@ -30,3 +30,13 @@ it('does not find unreleased course', function () {
 
     get(route('pages.course-detail', $course))->assertNotFound();
 });
+it('include paddle checkout button', function () {
+    $course = Course::factory()->release()->create([
+        'paddle_product_id' => 'product-id'
+    ]);
+
+    get(route('pages.course-detail', $course))->assertOk()
+        ->assertSee('<script src="https://cdn.paddle.com/paddle/paddle.js"></script>', false)
+        ->assertSee('Paddle.Setup({vendor: 4736});',false)
+        ->assertSee('<a href="#!" data-product="product-id" data-theme="none" class="paddle_button', false);
+});
