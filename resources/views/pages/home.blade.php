@@ -9,6 +9,6 @@
 
 
 @foreach($courses as $course)
-    {{$course->title}}
+    <b><h2>{{$course->title}}</h2> </b>
     {{$course->description}}
 @endforeach

@@ -6,7 +6,7 @@ use App\Models\Course;
 use App\Models\Video;
 
 beforeEach(function () {
-    $this->loggedInUser=loginAsUser();
+    $this->loggedInUser = loginAsUser();
 });
 test('show details for given video', function () {
     $course = Course::factory()->
@@ -42,8 +42,8 @@ test('show lists of all video courses', function () {
             ...$course->videos->pluck('title')->toArray()
         ])
         ->assertSeeHtml([
-            route('page.course-videos', $course->videos[1]),
-            route('page.course-videos', $course->videos[2]),
+            route('page.course-videos', [ $course, $course->videos[1]]),
+            route('page.course-videos', [ $course, $course->videos[2]]),
         ]);
 });
 test('does not include route for current video', function () {
