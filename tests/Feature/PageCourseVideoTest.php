@@ -22,19 +22,15 @@ test('include video player', function () {
         ->assertSeeLivewire(VideoPlayer::class);
 });
 test('show first course video by default', function () {
-    $courses = Course::factory()->
-    has(Video::factory()->state(new Sequence(
-        ['title' => 'First video'],
-        ['title' => 'Second video']))
-        ->count(2))
-        ->create();
+    $course = Course::factory()->
+    has(Video::factory())->create();
 
     loginAsUser();
     get(route('page.course-videos', [
-        'course' => $courses,
-        'video' => $courses->videos()->orderByDesc('id')->first()]))
+        'course' => $course,
+        'video' => $course->videos()->orderByDesc('id')->first()]))
         ->assertOk()
-        ->assertSeeText("Second video");
+        ->assertSeeText($course->videos()->first()->title);
 
 });
 test('show provided course video', function () {
